@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1118">
+  <meta name="description" content="Una guía interactiva para entender cómo la inteligencia artificial transforma el trabajo, la gobernanza y las ventajas competitivas.">
+  <title>IA y organización | Nexo sociotécnico</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0a1118;
+      --bg-soft: #101a22;
+      --surface: #111d26;
+      --surface-raised: #172630;
+      --text: #edf4f2;
+      --muted: #a1b1b5;
+      --faint: #71848a;
+      --line: rgba(210, 230, 225, .12);
+      --accent: #83e0c0;
+      --accent-strong: #49c9a0;
+      --accent-warm: #ffbd83;
+      --rose: #ff9eaa;
+      --blue: #a8c9ff;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .24);
+      --radius: 22px;
+      --max: 1160px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f3f5f0;
+      --bg-soft: #e9eee8;
+      --surface: #ffffff;
+      --surface-raised: #f7faf7;
+      --text: #1a2a2d;
+      --muted: #526669;
+      --faint: #718286;
+      --line: rgba(28, 59, 58, .14);
+      --accent: #087e63;
+      --accent-strong: #006b53;
+      --accent-warm: #a95519;
+      --rose: #a63f54;
+      --blue: #315b9b;
+      --shadow: 0 24px 70px rgba(36, 62, 54, .1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 78% 4%, rgba(44, 135, 116, .17), transparent 34rem),
+        radial-gradient(ellipse at 5% 32%, rgba(88, 114, 158, .09), transparent 32rem),
+        var(--bg);
+      line-height: 1.6;
+      transition: background-color .25s ease, color .25s ease;
+    }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    ::selection { color: #08130f; background: var(--accent); }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    .skip-link {
+      position: fixed; z-index: 100; top: 10px; left: 10px;
+      padding: 10px 14px; color: #07120e; background: var(--accent);
+      border-radius: 10px; transform: translateY(-160%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .progress-track { position: fixed; z-index: 60; inset: 0 0 auto; height: 3px; pointer-events: none; }
+    .progress-bar { width: 0; height: 100%; background: linear-gradient(90deg, var(--accent), #b1c5ff 58%, var(--accent-warm)); }
+    .site-header {
+      position: sticky; z-index: 50; top: 0;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+      backdrop-filter: blur(18px);
+    }
+    .header-inner {
+      width: min(var(--max), calc(100% - 48px)); min-height: 76px;
+      margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; white-space: nowrap; }
+    .brand-mark {
+      display: grid; place-items: center; width: 39px; height: 39px;
+      border-radius: 12px; color: #07120e; background: var(--accent);
+      font-size: 13px; font-weight: 850; letter-spacing: -.07em;
+    }
+    .brand-name { font-size: 14px; font-weight: 760; letter-spacing: .03em; }
+    .brand-name span { color: var(--muted); font-weight: 520; }
+    .primary-nav { display: flex; align-items: center; gap: clamp(14px, 2vw, 27px); }
+    .primary-nav a {
+      color: var(--muted); font-size: 12px; font-weight: 650; text-decoration: none;
+      transition: color .2s ease;
+    }
+    .primary-nav a:hover, .primary-nav a[aria-current="location"] { color: var(--accent); }
+    .header-actions { display: flex; align-items: center; gap: 9px; }
+    .icon-button, .menu-button {
+      display: inline-grid; place-items: center; width: 40px; height: 40px;
+      border: 1px solid var(--line); border-radius: 12px; background: var(--surface);
+      cursor: pointer; transition: border-color .2s ease, transform .2s ease;
+    }
+    .icon-button:hover, .menu-button:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .icon-button svg, .menu-button svg { width: 18px; height: 18px; }
+    .menu-button { display: none; }
+    main { width: min(var(--max), calc(100% - 48px)); margin: auto; }
+    .hero {
+      min-height: 580px; display: grid; grid-template-columns: 1.08fr .92fr;
+      align-items: center; gap: clamp(36px, 7vw, 88px); padding: 76px 0 92px;
+    }
+    .eyebrow, .section-kicker {
+      display: inline-flex; align-items: center; gap: 10px; color: var(--accent);
+      font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 22px; height: 1px; background: currentColor; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 690px; margin: 20px 0 22px;
+      font-size: clamp(44px, 6vw, 74px); line-height: .99; letter-spacing: -.065em;
+      font-weight: 760;
+    }
+    h1 em { color: var(--accent); font-style: normal; }
+    .hero-copy { max-width: 590px; color: var(--muted); font-size: clamp(16px, 1.6vw, 19px); line-height: 1.75; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 31px; }
+    .button {
+      min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 0 19px; border: 1px solid var(--line); border-radius: 12px;
+      text-decoration: none; font-size: 13px; font-weight: 750;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { color: #07140f; border-color: transparent; background: var(--accent); }
+    .button-primary:hover { background: var(--accent-strong); }
+    .button-secondary { background: var(--surface); }
+    .button-secondary:hover { border-color: var(--accent); }
+    .button svg { width: 16px; height: 16px; }
+    .hero-note { margin: 18px 0 0; color: var(--faint); font-size: 11px; }
+    .hero-visual {
+      position: relative; min-height: 395px; padding: 26px;
+      border: 1px solid var(--line); border-radius: 28px; overflow: hidden;
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--surface-raised) 95%, transparent), color-mix(in srgb, var(--surface) 88%, transparent));
+      box-shadow: var(--shadow);
+    }
+    .hero-visual::before {
+      content: ""; position: absolute; width: 260px; height: 260px; right: -86px; top: -112px;
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 50%;
+      box-shadow: 0 0 0 32px color-mix(in srgb, var(--accent) 5%, transparent), 0 0 0 64px color-mix(in srgb, var(--accent) 4%, transparent);
+    }
+    .visual-top { position: relative; display: flex; justify-content: space-between; align-items: center; }
+    .visual-label { color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .15em; }
+    .live-mark { display: inline-flex; align-items: center; gap: 7px; color: var(--accent); font-size: 10px; font-weight: 720; }
+    .live-mark::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .visual-title { position: relative; margin: 39px 0 25px; font-size: 23px; letter-spacing: -.04em; }
+    .flow-list { position: relative; display: grid; gap: 10px; }
+    .flow-item {
+      display: grid; grid-template-columns: 35px 1fr auto; align-items: center; gap: 12px;
+      padding: 13px; border: 1px solid var(--line); border-radius: 14px; background: color-mix(in srgb, var(--bg) 38%, transparent);
+    }
+    .flow-number { color: var(--faint); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; }
+    .flow-name { font-size: 12px; font-weight: 720; }
+    .flow-desc { display: block; color: var(--muted); font-size: 10px; font-weight: 500; }
+    .flow-tag { padding: 5px 8px; border-radius: 7px; color: var(--accent); background: color-mix(in srgb, var(--accent) 11%, transparent); font-size: 9px; font-weight: 800; white-space: nowrap; }
+    .visual-foot { position: relative; display: flex; justify-content: space-between; gap: 12px; margin-top: 17px; color: var(--faint); font-size: 10px; }
+    .section { padding: 78px 0; border-top: 1px solid var(--line); }
+    .section-heading { max-width: 720px; margin-bottom: 34px; }
+    .section-heading h2 { margin: 12px 0 10px; font-size: clamp(29px, 3.5vw, 42px); line-height: 1.12; letter-spacing: -.045em; }
+    .section-heading p { max-width: 620px; margin: 0; color: var(--muted); font-size: 15px; }
+    .section-heading.center { margin-right: auto; margin-left: auto; text-align: center; }
+    .section-heading.center .section-kicker { justify-content: center; }
+    .timeline-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .phase-card, .audit-card, .strategy-card, .sim-output {
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
+    }
+    .phase-card { position: relative; padding: 24px; overflow: hidden; transition: border-color .2s ease, transform .2s ease; }
+    .phase-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--phase-color) 55%, var(--line)); }
+    .phase-card::after { content: ""; position: absolute; top: 0; right: 0; left: 0; height: 3px; background: var(--phase-color); opacity: .85; }
+    .phase-card.phase-one { --phase-color: var(--blue); }
+    .phase-card.phase-two { --phase-color: var(--accent); }
+    .phase-card.phase-three { --phase-color: var(--accent-warm); }
+    .phase-top { display: flex; justify-content: space-between; align-items: center; color: var(--phase-color); }
+    .phase-index { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; font-weight: 800; }
+    .phase-symbol { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid color-mix(in srgb, var(--phase-color) 30%, var(--line)); border-radius: 12px; font-size: 16px; }
+    .phase-card h3 { margin: 22px 0 7px; font-size: 19px; line-height: 1.2; letter-spacing: -.025em; }
+    .phase-intro { min-height: 48px; margin-bottom: 20px; color: var(--muted); font-size: 12px; }
+    .detail-list { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+    .detail-list li { display: grid; grid-template-columns: 76px 1fr; gap: 9px; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .detail-list strong { color: var(--text); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
+    .simulator {
+      padding: clamp(24px, 5vw, 48px); border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
+      border-radius: 28px; background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 6%, var(--surface)), var(--surface) 56%);
+      box-shadow: var(--shadow);
+    }
+    .sim-top { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; }
+    .sim-top .section-heading { margin: 0; }
+    .sim-context { max-width: 260px; margin: 0 0 2px; color: var(--faint); font-size: 11px; }
+    .slider-area { margin: 32px 0 21px; }
+    .slider-value-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 15px; }
+    .slider-caption { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .slider-value { color: var(--accent); font-size: 14px; font-weight: 800; text-align: right; }
+    input[type="range"] {
+      width: 100%; height: 7px; margin: 0; border-radius: 20px; appearance: none;
+      background: linear-gradient(90deg, var(--blue), var(--accent), var(--accent-warm)); cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      width: 22px; height: 22px; border: 4px solid var(--bg); border-radius: 50%;
+      appearance: none; background: var(--accent); box-shadow: 0 0 0 1px var(--accent); cursor: grab;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 14px; height: 14px; border: 4px solid var(--bg); border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 0 1px var(--accent); cursor: grab;
+    }
+    .slider-ends { display: flex; justify-content: space-between; margin-top: 9px; color: var(--faint); font-size: 9px; }
+    .sim-output { padding: 23px; border-color: color-mix(in srgb, var(--sim-color, var(--accent)) 35%, var(--line)); }
+    .sim-output[data-mode="assisted"] { --sim-color: var(--blue); }
+    .sim-output[data-mode="collab"] { --sim-color: var(--accent); }
+    .sim-output[data-mode="agentic"] { --sim-color: var(--accent-warm); }
+    .sim-output-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 17px; border-bottom: 1px solid var(--line); }
+    .sim-output h3 { margin: 0; font-size: 17px; letter-spacing: -.02em; }
+    .risk-badge { flex: 0 0 auto; padding: 6px 9px; border-radius: 8px; color: var(--sim-color); background: color-mix(in srgb, var(--sim-color) 12%, transparent); font-size: 9px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+    .sim-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-top: 17px; }
+    .sim-details dt { margin-bottom: 5px; color: var(--faint); font-size: 9px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .sim-details dd { margin: 0; color: var(--text); font-size: 12px; line-height: 1.55; }
+    .audit-head { display: flex; justify-content: space-between; align-items: end; gap: 22px; margin-bottom: 28px; }
+    .audit-head .section-heading { margin-bottom: 0; }
+    .filter-group { display: flex; flex-wrap: wrap; gap: 7px; }
+    .filter-button {
+      padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px;
+      color: var(--muted); background: transparent; cursor: pointer;
+      font-size: 10px; font-weight: 750; transition: color .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .filter-button:hover, .filter-button[aria-pressed="true"] { color: var(--text); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, transparent); }
+    .audit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+    .audit-card { padding: 22px; transition: transform .2s ease, opacity .2s ease; }
+    .audit-card:hover { transform: translateY(-3px); }
+    .audit-card[hidden] { display: none; }
+    .audit-type { display: inline-flex; align-items: center; gap: 7px; color: var(--card-color); font-size: 9px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .audit-type::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: currentColor; }
+    .audit-card.evidence { --card-color: var(--accent); }
+    .audit-card.limits { --card-color: var(--accent-warm); }
+    .audit-card.hypothesis { --card-color: var(--blue); }
+    .audit-card h3 { margin: 15px 0 8px; font-size: 16px; line-height: 1.3; letter-spacing: -.02em; }
+    .audit-card p { margin: 0 0 17px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .source-link { color: var(--faint); font-size: 10px; text-decoration-color: color-mix(in srgb, var(--faint) 50%, transparent); text-underline-offset: 3px; }
+    .source-link:hover { color: var(--accent); }
+    .evidence-note { margin: 16px 0 0; padding: 14px 16px; border-left: 2px solid var(--accent-warm); color: var(--muted); background: color-mix(in srgb, var(--accent-warm) 5%, transparent); font-size: 11px; }
+    .strategy-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 20px; align-items: stretch; }
+    .strategy-lead {
+      display: flex; flex-direction: column; justify-content: space-between; min-height: 300px;
+      padding: 29px; border-radius: var(--radius); background: var(--accent); color: #07140f;
+    }
+    .strategy-lead .section-kicker { color: #133f33; }
+    .strategy-lead h3 { max-width: 350px; margin: 26px 0 12px; font-size: clamp(25px, 3vw, 37px); line-height: 1.08; letter-spacing: -.05em; }
+    .strategy-lead p { max-width: 360px; margin: 0; color: #194d40; font-size: 13px; }
+    .strategy-lead small { margin-top: 25px; color: #235c4c; font-size: 10px; font-weight: 750; }
+    .strategy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .strategy-card { padding: 22px; }
+    .strategy-number { color: var(--accent); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; font-weight: 800; }
+    .strategy-card h3 { margin: 17px 0 7px; font-size: 15px; }
+    .strategy-card p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.65; }
+    .references {
+      padding: clamp(22px, 4vw, 38px); border: 1px solid var(--line); border-radius: 26px;
+      background: var(--surface);
+    }
+    .references-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 21px; }
+    .references-head h2 { margin: 8px 0 0; font-size: 26px; letter-spacing: -.04em; }
+    .references-head p { max-width: 300px; margin: 0; color: var(--faint); font-size: 10px; text-align: right; }
+    .reference-list { display: grid; gap: 9px; }
+    .reference-item {
+      display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px;
+      padding: 15px; border: 1px solid var(--line); border-radius: 13px; background: var(--bg-soft);
+    }
+    .reference-copy { color: var(--muted); font-size: 11px; line-height: 1.65; }
+    .reference-copy a { color: var(--text); text-decoration-color: var(--accent); text-underline-offset: 3px; }
+    .copy-button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px;
+      color: var(--accent); background: var(--surface); cursor: pointer;
+      font-size: 10px; font-weight: 800; white-space: nowrap;
+    }
+    .copy-button:hover { border-color: var(--accent); }
+    .copy-button svg { width: 13px; height: 13px; }
+    .page-footer { display: flex; justify-content: space-between; gap: 20px; padding: 27px 0 42px; color: var(--faint); font-size: 10px; }
+    .page-footer strong { color: var(--muted); }
+    .toast {
+      position: fixed; z-index: 80; right: 22px; bottom: 22px; max-width: min(360px, calc(100vw - 44px));
+      padding: 13px 17px; border: 1px solid color-mix(in srgb, var(--accent) 50%, var(--line)); border-radius: 12px;
+      color: var(--text); background: var(--surface-raised); box-shadow: var(--shadow);
+      font-size: 12px; opacity: 0; transform: translateY(12px); pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    @media (max-width: 900px) {
+      .primary-nav { gap: 12px; }
+      .primary-nav a { font-size: 10px; }
+      .hero { gap: 30px; }
+      .hero-visual { padding: 21px; }
+      .audit-head { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 720px) {
+      html { scroll-padding-top: 76px; }
+      .header-inner { width: min(100% - 32px, var(--max)); min-height: 66px; }
+      main { width: min(100% - 32px, var(--max)); }
+      .menu-button { display: inline-grid; }
+      .primary-nav {
+        display: none; position: absolute; top: calc(100% + 1px); right: 0; left: 0;
+        padding: 14px 16px 18px; border-bottom: 1px solid var(--line); background: var(--bg);
+      }
+      .primary-nav.open { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+      .primary-nav a { padding: 12px; border-radius: 9px; font-size: 12px; }
+      .primary-nav a:hover { background: var(--surface); }
+      .hero { min-height: 0; grid-template-columns: 1fr; padding: 63px 0 66px; }
+      .hero-visual { min-height: 0; }
+      .section { padding: 61px 0; }
+      .timeline-grid, .audit-grid { grid-template-columns: 1fr 1fr; }
+      .sim-top { grid-template-columns: 1fr; gap: 8px; }
+      .sim-context { max-width: 520px; }
+      .strategy-layout { grid-template-columns: 1fr; }
+      .strategy-lead { min-height: 240px; }
+    }
+    @media (max-width: 520px) {
+      h1 { font-size: clamp(42px, 12vw, 58px); }
+      .brand-name { font-size: 12px; }
+      .timeline-grid, .audit-grid, .strategy-grid { grid-template-columns: 1fr; }
+      .phase-intro { min-height: auto; }
+      .slider-value-row { align-items: flex-start; flex-direction: column; gap: 5px; }
+      .slider-value { text-align: left; }
+      .sim-output { padding: 18px; }
+      .sim-output-head { flex-direction: column; }
+      .sim-details { grid-template-columns: 1fr; gap: 13px; }
+      .audit-head { margin-bottom: 20px; }
+      .filter-group { width: 100%; }
+      .filter-button { flex: 1 1 auto; }
+      .references-head { align-items: flex-start; flex-direction: column; }
+      .references-head p { text-align: left; }
+      .reference-item { grid-template-columns: 1fr; gap: 11px; }
+      .copy-button { justify-self: start; }
+      .page-footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#inicio" aria-label="Nexo IA, inicio">
+        <span class="brand-mark" aria-hidden="true">N/</span>
+        <span class="brand-name">NEXO <span>· IA Y ORGANIZACIÓN</span></span>
+      </a>
+      <nav class="primary-nav" id="primaryNav" aria-label="Navegación principal">
+        <a href="#evolucion">Evolución</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#evidencia">Evidencia</a>
+        <a href="#estrategia">Estrategia</a>
+        <a href="#fuentes">Fuentes</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button" id="themeToggle" type="button" aria-label="Cambiar a tema claro" title="Cambiar tema">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+        </button>
+        <button class="menu-button" id="menuToggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="primaryNav">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio" aria-labelledby="heroTitle">
+      <div>
+        <span class="eyebrow">Estrategia · Trabajo · Gobernanza</span>
+        <h1 id="heroTitle">La IA cambia.<br>La organización, <em>también.</em></h1>
+        <p class="hero-copy">Una mirada sociotécnica a la inteligencia artificial: cómo evoluciona la tecnología, qué cambia en el trabajo y dónde puede construirse una ventaja competitiva duradera.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#simulador">Explorar el simulador
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </a>
+          <a class="button button-secondary" href="#evidencia">Revisar la evidencia</a>
+        </div>
+        <p class="hero-note">Conceptos y estudios con alcance explícito; cada resultado depende del contexto.</p>
+      </div>
+      <aside class="hero-visual" aria-label="Resumen visual de la evolución de la inteligencia artificial">
+        <div class="visual-top"><span class="visual-label">MAPA DE TRANSFORMACIÓN</span><span class="live-mark">3 etapas</span></div>
+        <h2 class="visual-title">De predecir a coordinar</h2>
+        <div class="flow-list">
+          <div class="flow-item"><span class="flow-number">01</span><span class="flow-name">Predecir<span class="flow-desc">Patrones y recomendaciones</span></span><span class="flow-tag">ASISTE</span></div>
+          <div class="flow-item"><span class="flow-number">02</span><span class="flow-name">Generar<span class="flow-desc">Contenido y propuestas</span></span><span class="flow-tag">COLABORA</span></div>
+          <div class="flow-item"><span class="flow-number">03</span><span class="flow-name">Actuar<span class="flow-desc">Herramientas y procesos</span></span><span class="flow-tag">EJECUTA</span></div>
+        </div>
+        <div class="visual-foot"><span>Capacidad técnica</span><span>+ diseño del trabajo + control</span></div>
+      </aside>
+    </section>
+
+    <section class="section" id="evolucion" aria-labelledby="evolutionTitle">
+      <div class="section-heading">
+        <span class="section-kicker">01 / Evolución</span>
+        <h2 id="evolutionTitle">Tres formas de trabajar con IA</h2>
+        <p>La diferencia no es solo el modelo: también cambia quién decide, quién ejecuta y cómo se supervisa el resultado.</p>
+      </div>
+      <div class="timeline-grid">
+        <article class="phase-card phase-one">
+          <div class="phase-top"><span class="phase-index">ETAPA 01</span><span class="phase-symbol" aria-hidden="true">↗</span></div>
+          <h3>IA predictiva</h3>
+          <p class="phase-intro">Estima resultados a partir de patrones en datos.</p>
+          <ul class="detail-list">
+            <li><strong>Enfoque</strong><span>Clasificación, regresión y detección de patrones.</span></li>
+            <li><strong>Usos</strong><span>Fraude, demanda y priorización de casos.</span></li>
+            <li><strong>Relación</strong><span>La IA recomienda; una persona decide.</span></li>
+          </ul>
+        </article>
+        <article class="phase-card phase-two">
+          <div class="phase-top"><span class="phase-index">ETAPA 02</span><span class="phase-symbol" aria-hidden="true">✳</span></div>
+          <h3>IA generativa</h3>
+          <p class="phase-intro">Produce borradores, síntesis, código y otras propuestas.</p>
+          <ul class="detail-list">
+            <li><strong>Enfoque</strong><span>Modelos generativos, contexto y herramientas como RAG.</span></li>
+            <li><strong>Usos</strong><span>Redacción, búsqueda asistida y prototipos.</span></li>
+            <li><strong>Relación</strong><span>La persona guía, edita y valida el resultado.</span></li>
+          </ul>
+        </article>
+        <article class="phase-card phase-three">
+          <div class="phase-top"><span class="phase-index">ETAPA 03</span><span class="phase-symbol" aria-hidden="true">◎</span></div>
+          <h3>Sistemas con agentes</h3>
+          <p class="phase-intro">Encadenan pasos y usan herramientas para completar tareas.</p>
+          <ul class="detail-list">
+            <li><strong>Enfoque</strong><span>Planificación, memoria de trabajo y llamadas a herramientas.</span></li>
+            <li><strong>Usos</strong><span>Flujos acotados con objetivos y permisos definidos.</span></li>
+            <li><strong>Relación</strong><span>Supervisión y límites proporcionales al riesgo.</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="simulador" aria-labelledby="simTitle">
+      <div class="simulator">
+        <div class="sim-top">
+          <div class="section-heading">
+            <span class="section-kicker">02 / Interactivo</span>
+            <h2 id="simTitle">¿Qué cambia cuando aumenta la autonomía?</h2>
+            <p>Mueve el control para explorar cómo se redistribuyen el trabajo, la supervisión y las habilidades necesarias.</p>
+          </div>
+          <p class="sim-context">Es un marco conceptual para conversar sobre diseño del trabajo, no una medición de riesgo.</p>
+        </div>
+        <div class="slider-area">
+          <div class="slider-value-row">
+            <label class="slider-caption" for="autonomySlider">Grado de autonomía del sistema</label>
+            <output class="slider-value" id="sliderValueText" for="autonomySlider">50% · Colaboración</output>
+          </div>
+          <input id="autonomySlider" type="range" min="0" max="100" value="50" aria-valuetext="50 por ciento, colaboración">
+          <div class="slider-ends" aria-hidden="true"><span>Asistencia humana</span><span>Mayor autonomía</span></div>
+        </div>
+        <div class="sim-output" id="simulatorOutput" data-mode="collab" aria-live="polite">
+          <div class="sim-output-head">
+            <h3 id="simModeTitle">Colaboración · revisión humana</h3>
+            <span class="risk-badge" id="simBadge">Control compartido</span>
+          </div>
+          <dl class="sim-details">
+            <div><dt>Rol del equipo</dt><dd id="simRole">Define el objetivo, evalúa opciones y mejora los borradores.</dd></div>
+            <div><dt>Mecanismo de control</dt><dd id="simControl">Revisión antes de usar o publicar el resultado.</dd></div>
+            <div><dt>Habilidad clave</dt><dd id="simSkill">Criterio, conocimiento del dominio y verificación.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="evidencia" aria-labelledby="evidenceTitle">
+      <div class="audit-head">
+        <div class="section-heading">
+          <span class="section-kicker">03 / Auditoría de evidencia</span>
+          <h2 id="evidenceTitle">Qué sabemos y qué sigue abierto</h2>
+          <p>Los hallazgos empíricos describen contextos concretos. Conviene separar resultados observados de hipótesis y extrapolaciones.</p>
+        </div>
+        <div class="filter-group" role="group" aria-label="Filtrar hallazgos">
+          <button class="filter-button" type="button" data-filter="all" aria-pressed="true">Todos</button>
+          <button class="filter-button" type="button" data-filter="evidence" aria-pressed="false">Hallazgos</button>
+          <button class="filter-button" type="button" data-filter="limits" aria-pressed="false">Límites</button>
+          <button class="filter-button" type="button" data-filter="hypothesis" aria-pressed="false">Hipótesis</button>
+        </div>
+      </div>
+      <div class="audit-grid" id="auditGrid">
+        <article class="audit-card evidence" data-category="evidence">
+          <span class="audit-type">Estudio de campo</span>
+          <h3>El efecto varía según la experiencia</h3>
+          <p>En una empresa de atención al cliente, el asistente generativo elevó en promedio 14% los casos resueltos por hora; las mejoras fueron mayores entre agentes nuevos y menos experimentados.</p>
+          <a class="source-link" href="https://www.nber.org/papers/w31161" target="_blank" rel="noreferrer">Brynjolfsson, Li y Raymond · NBER</a>
+        </article>
+        <article class="audit-card limits" data-category="limits">
+          <span class="audit-type">Resultado contextual</span>
+          <h3>Más ayuda no siempre significa más velocidad</h3>
+          <p>En un ensayo con 16 desarrolladores expertos y 246 tareas en sus propios proyectos, herramientas de IA de inicios de 2025 aumentaron el tiempo de finalización en 19%. El resultado no representa a todo el desarrollo de software.</p>
+          <a class="source-link" href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/" target="_blank" rel="noreferrer">Becker et al. · METR, 2025</a>
+        </article>
+        <article class="audit-card evidence" data-category="evidence">
+          <span class="audit-type">Evaluación de método</span>
+          <h3>Razonar y actuar puede mejorar tareas acotadas</h3>
+          <p>El trabajo sobre ReAct combina razonamiento con acciones sobre herramientas y reporta mejoras en tareas específicas de preguntas, verificación e interacción. No demuestra una ventaja universal en procesos empresariales.</p>
+          <a class="source-link" href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noreferrer">Yao et al. · artículo de investigación</a>
+        </article>
+        <article class="audit-card hypothesis" data-category="hypothesis">
+          <span class="audit-type">Hipótesis por validar</span>
+          <h3>La automatización reducirá mandos medios</h3>
+          <p>Es una posibilidad debatida, no una consecuencia inevitable de adoptar agentes. Para evaluarla hacen falta datos longitudinales sobre estructura, responsabilidades y calidad de decisión en cada organización.</p>
+          <span class="source-link">Pregunta abierta · requiere evidencia organizacional</span>
+        </article>
+        <article class="audit-card limits" data-category="limits">
+          <span class="audit-type">Límite de inferencia</span>
+          <h3>Una prueba técnica no predice el margen de una firma</h3>
+          <p>La productividad en una tarea aislada no equivale automáticamente a ahorro o rentabilidad. Integración, revisión, adopción, costes y rediseño del proceso también influyen.</p>
+          <span class="source-link">Distinción entre tarea, flujo de trabajo y resultado de negocio</span>
+        </article>
+        <article class="audit-card hypothesis" data-category="hypothesis">
+          <span class="audit-type">Hipótesis estratégica</span>
+          <h3>Los datos propios pueden diferenciar</h3>
+          <p>Los datos aportan valor cuando son pertinentes, utilizables y legítimos, y se conectan con procesos y aprendizaje. Acumular datos por sí solo no crea una barrera sostenible.</p>
+          <span class="source-link">Condición estratégica · no ventaja automática</span>
+        </article>
+      </div>
+      <p class="evidence-note"><strong>Cómo leer los resultados:</strong> los estudios citados usan poblaciones, herramientas y medidas distintas. Sus porcentajes no deben compararse como si midieran lo mismo ni extrapolarse sin contexto.</p>
+    </section>
+
+    <section class="section" id="estrategia" aria-labelledby="strategyTitle">
+      <div class="section-heading">
+        <span class="section-kicker">04 / Estrategia · perspectiva de recursos</span>
+        <h2 id="strategyTitle">La ventaja está en cómo se combina la tecnología</h2>
+        <p>Cuando las herramientas se vuelven accesibles, la ejecución aislada se copia con más facilidad. La diferencia puede surgir de los recursos y capacidades que las rodean.</p>
+      </div>
+      <div class="strategy-layout">
+        <div class="strategy-lead">
+          <div>
+            <span class="section-kicker">Idea central</span>
+            <h3>La IA no es el foso. El sistema de trabajo puede serlo.</h3>
+            <p>Una capacidad técnica crea valor cuando se integra con conocimiento, procesos y aprendizaje difíciles de replicar.</p>
+          </div>
+          <small>RECURSOS + INTEGRACIÓN + APRENDIZAJE</small>
+        </div>
+        <div class="strategy-grid">
+          <article class="strategy-card"><span class="strategy-number">01 / DATOS</span><h3>Contexto propio</h3><p>Información de calidad, con derechos claros y relación directa con una decisión útil.</p></article>
+          <article class="strategy-card"><span class="strategy-number">02 / PROCESOS</span><h3>Integración real</h3><p>Flujos rediseñados para incluir revisión, manejo de excepciones y responsables.</p></article>
+          <article class="strategy-card"><span class="strategy-number">03 / PERSONAS</span><h3>Conocimiento aplicado</h3><p>Equipos capaces de formular problemas, juzgar resultados y compartir aprendizaje.</p></article>
+          <article class="strategy-card"><span class="strategy-number">04 / GOBERNANZA</span><h3>Control proporcional</h3><p>Permisos, trazabilidad y supervisión acordes con el impacto de cada tarea.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fuentes" aria-labelledby="referencesTitle">
+      <div class="references">
+        <div class="references-head">
+          <div><span class="section-kicker">05 / Lecturas</span><h2 id="referencesTitle">Fuentes y referencias</h2></div>
+          <p>Selecciona “Copiar” para guardar una referencia en formato APA.</p>
+        </div>
+        <div class="reference-list">
+          <div class="reference-item">
+            <div class="reference-copy" id="citation1">Brynjolfsson, E., Li, D., &amp; Raymond, L. R. (2023). <em>Generative AI at work</em> (NBER Working Paper No. 31161). National Bureau of Economic Research. <a href="https://doi.org/10.3386/w31161" target="_blank" rel="noreferrer">https://doi.org/10.3386/w31161</a></div>
+            <button class="copy-button" type="button" data-copy="citation1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Copiar</button>
+          </div>
+          <div class="reference-item">
+            <div class="reference-copy" id="citation2">Becker, J., Rush, N., Barnes, B., &amp; Rein, D. (2025). <em>Measuring the impact of early-2025 AI on experienced open-source developer productivity</em>. Model Evaluation &amp; Threat Research. <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/" target="_blank" rel="noreferrer">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</a></div>
+            <button class="copy-button" type="button" data-copy="citation2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Copiar</button>
+          </div>
+          <div class="reference-item">
+            <div class="reference-copy" id="citation3">Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., &amp; Cao, Y. (2022). <em>ReAct: Synergizing reasoning and acting in language models</em>. arXiv. <a href="https://doi.org/10.48550/arXiv.2210.03629" target="_blank" rel="noreferrer">https://doi.org/10.48550/arXiv.2210.03629</a></div>
+            <button class="copy-button" type="button" data-copy="citation3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Copiar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="page-footer"><span><strong>NEXO · IA Y ORGANIZACIÓN</strong> — guía interactiva</span><span>Una lectura sociotécnica para pensar el trabajo con IA.</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    const root = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+    const sunIcon = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>';
+    const moonIcon = '<path d="M20.9 13A8.8 8.8 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/>';
+
+    try {
+      const savedTheme = localStorage.getItem("nexo-theme");
+      if (savedTheme === "light" || savedTheme === "dark") root.dataset.theme = savedTheme;
+    } catch (error) {}
+
+    function updateThemeButton() {
+      const isDark = root.dataset.theme === "dark";
+      themeToggle.setAttribute("aria-label", isDark ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+      themeIcon.innerHTML = isDark ? sunIcon : moonIcon;
+    }
+    updateThemeButton();
+    themeToggle.addEventListener("click", function () {
+      root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+      try { localStorage.setItem("nexo-theme", root.dataset.theme); } catch (error) {}
+      updateThemeButton();
+    });
+
+    const menuToggle = document.getElementById("menuToggle");
+    const primaryNav = document.getElementById("primaryNav");
+    function closeMenu() {
+      primaryNav.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.setAttribute("aria-label", "Abrir menú");
+    }
+    menuToggle.addEventListener("click", function () {
+      const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Abrir menú" : "Cerrar menú");
+      primaryNav.classList.toggle("open", !isOpen);
+    });
+    primaryNav.querySelectorAll("a").forEach(function (link) { link.addEventListener("click", closeMenu); });
+    document.addEventListener("keydown", function (event) { if (event.key === "Escape") closeMenu(); });
+    document.addEventListener("click", function (event) {
+      if (!primaryNav.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
+    });
+
+    const progressBar = document.getElementById("progressBar");
+    let scrollTicking = false;
+    window.addEventListener("scroll", function () {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      window.requestAnimationFrame(function () {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+        progressBar.style.width = Math.min(100, Math.max(0, progress)) + "%";
+        scrollTicking = false;
+      });
+    }, { passive: true });
+
+    const slider = document.getElementById("autonomySlider");
+    const valueText = document.getElementById("sliderValueText");
+    const modeTitle = document.getElementById("simModeTitle");
+    const badge = document.getElementById("simBadge");
+    const roleText = document.getElementById("simRole");
+    const controlText = document.getElementById("simControl");
+    const skillText = document.getElementById("simSkill");
+    const displayBox = document.getElementById("simulatorOutput");
+    function updateSimulator() {
+      const value = Number(slider.value);
+      let mode;
+      if (value < 35) {
+        mode = {
+          key: "assisted", label: "Asistencia", title: "Asistencia · decisión humana", badge: "Control humano",
+          role: "Interpreta recomendaciones y toma la decisión final.",
+          control: "Revisión humana en cada decisión relevante.",
+          skill: "Conocimiento del dominio y lectura crítica de datos."
+        };
+      } else if (value < 70) {
+        mode = {
+          key: "collab", label: "Colaboración", title: "Colaboración · revisión humana", badge: "Control compartido",
+          role: "Define el objetivo, evalúa opciones y mejora los borradores.",
+          control: "Revisión antes de usar o publicar el resultado.",
+          skill: "Criterio, conocimiento del dominio y verificación."
+        };
+      } else {
+        mode = {
+          key: "agentic", label: "Ejecución delegada", title: "Ejecución delegada · supervisión", badge: "Control por límites",
+          role: "Define permisos, supervisa excepciones y responde por el proceso.",
+          control: "Límites previos, registros y revisión de casos excepcionales.",
+          skill: "Diseño de procesos, evaluación de riesgo y gobernanza."
+        };
+      }
+      valueText.textContent = value + "% · " + mode.label;
+      slider.setAttribute("aria-valuetext", value + " por ciento, " + mode.label.toLowerCase());
+      modeTitle.textContent = mode.title;
+      badge.textContent = mode.badge;
+      roleText.textContent = mode.role;
+      controlText.textContent = mode.control;
+      skillText.textContent = mode.skill;
+      displayBox.dataset.mode = mode.key;
+    }
+    slider.addEventListener("input", updateSimulator);
+
+    const filterButtons = document.querySelectorAll(".filter-button");
+    const auditCards = document.querySelectorAll(".audit-card");
+    filterButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        const selected = button.dataset.filter;
+        filterButtons.forEach(function (item) { item.setAttribute("aria-pressed", String(item === button)); });
+        auditCards.forEach(function (card) {
+          card.hidden = selected !== "all" && card.dataset.category !== selected;
+        });
+      });
+    });
+
+    const toast = document.getElementById("toast");
+    let toastTimer;
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(function () { toast.classList.remove("show"); }, 2600);
+    }
+    async function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+      const field = document.createElement("textarea");
+      field.value = text;
+      field.setAttribute("readonly", "");
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      const copied = document.execCommand("copy");
+      field.remove();
+      if (!copied) throw new Error("No se pudo copiar");
+    }
+    document.querySelectorAll(".copy-button").forEach(function (button) {
+      button.addEventListener("click", async function () {
+        const citation = document.getElementById(button.dataset.copy).innerText;
+        try {
+          await copyText(citation);
+          showToast("Referencia copiada al portapapeles.");
+        } catch (error) {
+          showToast("No se pudo copiar. Selecciona y copia la referencia.");
+        }
+      });
+    });
+
+    const sections = document.querySelectorAll("main section[id]");
+    const navLinks = document.querySelectorAll(".primary-nav a");
+    if ("IntersectionObserver" in window) {
+      const sectionObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach(function (link) {
+            if (link.getAttribute("href") === "#" + entry.target.id) link.setAttribute("aria-current", "location");
+            else link.removeAttribute("aria-current");
+          });
+        });
+      }, { rootMargin: "-25% 0px -65% 0px" });
+      sections.forEach(function (section) { sectionObserver.observe(section); });
+    }
+  </script>
+</body>
+</html>
